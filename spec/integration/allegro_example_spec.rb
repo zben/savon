@@ -2,9 +2,16 @@
 
 describe "Allegro example" do
 
-  it "works" do
+  before do
+    # Change the adapter to net/http to match the issue.
     HTTPI.adapter = :net_http
+  end
 
+  after do
+    HTTPI.adapter = :httpclient
+  end
+
+  it "properly retrieves the WSDL from an SSL protected website" do
     client = Savon.client(
       # The WSDL document provided by the service.
       :wsdl => "https://webapi.allegro.pl/uploader.php?wsdl",
