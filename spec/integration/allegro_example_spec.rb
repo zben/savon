@@ -27,12 +27,12 @@ describe "Allegro example" do
       # Disable logging for cleaner spec output.
       :log => false,
 
-      # Do not raise SOAP faults. We're using an invalid API key for this spec, so we expect
-      # the server to raise an error.
+      # Do not raise SOAP faults. We're using an invalid API key for this spec,
+      # so we actually expect the server to raise an error.
       :raise_errors => false
     )
 
-    message = { "sysver" => 1, "country-id" => 1, "webapi-key" => "WEBAPIKEY" }
+    message  = { "sysver" => 1, "country-id" => 1, "webapi-key" => "WEBAPIKEY" }
     response = client.call(:do_query_sys_status, message: message)
 
     expect(response).to_not be_successful
