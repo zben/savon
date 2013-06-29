@@ -1,19 +1,30 @@
-Savon [![Build Status](https://secure.travis-ci.org/rubiii/savon.png?branch=master)](http://travis-ci.org/rubiii/savon)
-=====
+# Savon
 
 Heavy metal SOAP client
 
 [Documentation](http://savonrb.com) | [RDoc](http://rubydoc.info/gems/savon) |
 [Mailing list](https://groups.google.com/forum/#!forum/savonrb) | [Twitter](http://twitter.com/savonrb)
 
-Installation
-------------
+[![Build Status](https://secure.travis-ci.org/savonrb/savon.png?branch=version1)](http://travis-ci.org/savonrb/savon)
+[![Gem Version](https://badge.fury.io/rb/savon.png)](http://badge.fury.io/rb/savon)
+[![Code Climate](https://codeclimate.com/github/savonrb/savon.png)](https://codeclimate.com/github/savonrb/savon)
+[![Coverage Status](https://coveralls.io/repos/savonrb/savon/badge.png?branch=version1)](https://coveralls.io/r/savonrb/savon)
 
-Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be installed via:
+
+## Version 1 (Deprecated)
+
+Savon version 1 is available through [Rubygems](http://rubygems.org/gems/savon) and can be installed via:
 
 ```
-$ gem install savon
+$ gem install savon --version '~> 1.0'
 ```
+
+or add it to your Gemfile like this:
+
+```
+gem 'savon', '~> 1.0'
+```
+
 
 Introduction
 ------------
@@ -39,4 +50,4 @@ response.body
 Documentation
 -------------
 
-Continue reading at [savonrb.com](http://savonrb.com)
+Continue reading at [savonrb.com/version1/](http://savonrb.com/version1/)
