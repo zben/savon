@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Delicious SOAP for the Ruby community"
 
   s.rubyforge_project = s.name
+  s.license = 'MIT'
 
   s.add_dependency "nori",     "~> 1.1.0"
   s.add_dependency "httpi",    "~> 1.1.0"
