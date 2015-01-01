@@ -106,7 +106,7 @@ module SavonV2
       }
 
       non_nil_nori_options = nori_options.reject { |_, value| value.nil? }
-      @nori = Nori.new(non_nil_nori_options)
+      @nori = NoriV2.new(non_nil_nori_options)
     end
 
   end

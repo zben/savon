@@ -8,8 +8,8 @@ describe SavonV2::SOAPFault do
   let(:another_soap_fault) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:another_soap_fault)), nori }
   let(:no_fault) { SavonV2::SOAPFault.new new_response, nori }
 
-  let(:nori) { Nori.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
-  let(:nori_no_convert) { Nori.new(:strip_namespaces => true, :convert_tags_to => nil) }
+  let(:nori) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
+  let(:nori_no_convert) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => nil) }
 
   it "inherits from SavonV2::Error" do
     expect(SavonV2::SOAPFault.ancestors).to include(SavonV2::Error)

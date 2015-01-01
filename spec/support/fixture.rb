@@ -20,7 +20,7 @@ class Fixture
   private
 
     def nori
-      Nori.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
+      NoriV2.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
     end
 
     def fixtures(type)
