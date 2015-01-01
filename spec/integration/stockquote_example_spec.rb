@@ -3,7 +3,7 @@
 describe "Stockquote example" do
 
   it "returns the result in a CDATA tag" do
-    client = Savon.client(
+    client = SavonV2.client(
       # The WSDL document provided by the service.
       :wsdl => "http://www.webservicex.net/stockquote.asmx?WSDL",
 

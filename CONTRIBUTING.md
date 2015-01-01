@@ -1,10 +1,10 @@
 # Contribution Guide
 
-This page describes how to contribute changes to Savon.
+This page describes how to contribute changes to SavonV2.
 
 Please do not create a pull request without reading this guide first.
-Make sure to read the documentation for your version at [savonrb.com](http://savonrb.com/)
-and post questions to the [mailing list](https://groups.google.com/forum/#!forum/savonrb).
+Make sure to read the documentation for your version at [savon_v2rb.com](http://savon_v2rb.com/)
+and post questions to the [mailing list](https://groups.google.com/forum/#!forum/savon_v2rb).
 
 **Bug fixes**
 
@@ -17,8 +17,8 @@ let us know how we could make this easier for you. Also, provide code and the WS
 service you're working with so others can try to come up with a spec for your problem.
 
 After we have a failing spec, it obviously needs to be fixed. Make sure your new spec is the
-only failing one under the `spec` directory. Travis only runs the "unit tests" at `spec/savon`,
-but Savon actually has with some additional "integration/example specs" at `spec/integration`,
+only failing one under the `spec` directory. Travis only runs the "unit tests" at `spec/savon_v2`,
+but SavonV2 actually has with some additional "integration/example specs" at `spec/integration`,
 which you need to run locally to make sure the integration with real world services still works.
 
 Notice that these specs are not run by Travis, because the service's are not guaranteed to work
@@ -29,15 +29,15 @@ Please follow this basic workflow for pull requests:
 * [Fork the project](https://help.github.com/articles/fork-a-repo)
 * Create a feature branch and make your bug fix
 * Add tests for it!
-* Update the [Changelog](https://github.com/savonrb/savon/blob/master/CHANGELOG.md)
+* Update the [Changelog](https://github.com/savon_v2rb/savon_v2/blob/master/CHANGELOG.md)
 * [Send a pull request](https://help.github.com/articles/using-pull-requests)
-* [Check that your pull request passes the build](https://travis-ci.org/savonrb/savon/pull_requests)
+* [Check that your pull request passes the build](https://travis-ci.org/savon_v2rb/savon_v2/pull_requests)
 
 
 **Improvements and feature requests**
 
 If you have an idea for an improvement or a new feature, please feel free to
-[create a new issue](https://github.com/savonrb/savon/issues/new) and describe your idea
+[create a new issue](https://github.com/savon_v2rb/savon_v2/issues/new) and describe your idea
 so that other people can give their insights and opinions. This is also important to avoid
 duplicate work.
 

@@ -3,7 +3,7 @@
 describe "ZIP code example" do
 
   it "supports threads making requests simultaneously" do
-    client = Savon.client(
+    client = SavonV2.client(
       # The WSDL document provided by the service.
       :wsdl => "http://www.thomas-bayer.com/axis2/services/BLZService?wsdl",
 

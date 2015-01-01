@@ -11,7 +11,7 @@ unless RUBY_PLATFORM =~ /java/
   end
 end
 
-require "savon"
+require "savon_v2"
 require "rspec"
 
 # don't have HTTPI lazy-load HTTPClient, because then

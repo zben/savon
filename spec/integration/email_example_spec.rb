@@ -3,7 +3,7 @@
 describe "Email example" do
 
   it "passes Strings as they are" do
-    client = Savon.client(
+    client = SavonV2.client(
       # The WSDL document provided by the service.
       :wsdl => "http://ws.cdyne.com/emailverify/Emailvernotestemail.asmx?wsdl",
 
