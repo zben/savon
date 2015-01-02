@@ -1,4 +1,4 @@
-require "nori"
+require "nori_v2"
 require "savon_v2/soap_fault"
 require "savon_v2/http_error"
 
@@ -49,7 +49,7 @@ module SavonV2
     end
 
     def hash
-      @hash ||= nori.parse(xml)
+      @hash ||= nori_v2.parse(xml)
     end
 
     def xml
@@ -68,16 +68,16 @@ module SavonV2
     end
 
     def find(*path)
-      envelope = nori.find(hash, 'Envelope')
+      envelope = nori_v2.find(hash, 'Envelope')
       raise_invalid_response_error! unless envelope
 
-      nori.find(envelope, *path)
+      nori_v2.find(envelope, *path)
     end
 
     private
 
     def build_soap_and_http_errors!
-      @soap_fault = SOAPFault.new(@http, nori, xml) if soap_fault?
+      @soap_fault = SOAPFault.new(@http, nori_v2, xml) if soap_fault?
       @http_error = HTTPError.new(@http) if http_error?
     end
 
@@ -94,10 +94,10 @@ module SavonV2
       @xml_namespaces ||= doc.collect_namespaces
     end
 
-    def nori
-      return @nori if @nori
+    def nori_v2
+      return @nori_v2 if @nori_v2
 
-      nori_options = {
+      nori_v2_options = {
         :strip_namespaces      => @globals[:strip_namespaces],
         :convert_tags_to       => @globals[:convert_response_tags_to],
         :convert_attributes_to => @globals[:convert_attributes_to],
@@ -105,8 +105,8 @@ module SavonV2
         :parser                => @locals[:response_parser]
       }
 
-      non_nil_nori_options = nori_options.reject { |_, value| value.nil? }
-      @nori = NoriV2.new(non_nil_nori_options)
+      non_nil_nori_v2_options = nori_v2_options.reject { |_, value| value.nil? }
+      @nori_v2 = NoriV2.new(non_nil_nori_v2_options)
     end
 
   end

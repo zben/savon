@@ -50,7 +50,7 @@ module SavonV2
       response = SavonV2.notify_observers(@name, builder, @globals, @locals)
       response ||= call_with_logging build_request(builder)
 
-      raise_expected_httpi_response! unless response.kind_of?(HTTPI::Response)
+      raise_expected_httpi2_response! unless response.kind_of?(HTTPI2::Response)
 
       create_response(response)
     end
@@ -88,7 +88,7 @@ module SavonV2
     end
 
     def call_with_logging(request)
-      @logger.log(request) { HTTPI.post(request, @globals[:adapter]) }
+      @logger.log(request) { HTTPI2.post(request, @globals[:adapter]) }
     end
 
     def build_request(builder)
@@ -103,7 +103,7 @@ module SavonV2
       request.url = endpoint
       request.body = builder.to_s
 
-      # TODO: could HTTPI do this automatically in case the header
+      # TODO: could HTTPI2 do this automatically in case the header
       #       was not specified manually? [dh, 2013-01-04]
       request.headers["Content-Length"] = request.body.bytesize.to_s
 
@@ -119,15 +119,15 @@ module SavonV2
       # with no local option, but a wsdl, ask it for the soap_action
       soap_action ||= @wsdl.soap_action(@name.to_sym) if @wsdl.document?
       # if there is no soap_action up to this point, fallback to a simple default
-      soap_action ||= Gyoku.xml_tag(@name, :key_converter => @globals[:convert_request_keys_to])
+      soap_action ||= GyokuV1.xml_tag(@name, :key_converter => @globals[:convert_request_keys_to])
     end
 
     def endpoint
       @globals[:endpoint] || @wsdl.endpoint
     end
 
-    def raise_expected_httpi_response!
-      raise Error, "Observers need to return an HTTPI::Response to mock " \
+    def raise_expected_httpi2_response!
+      raise Error, "Observers need to return an HTTPI2::Response to mock " \
                    "the request or nil to execute the request."
     end
 

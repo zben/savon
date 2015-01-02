@@ -50,7 +50,7 @@ describe SavonV2 do
 
         def notify(*)
           # return a response to mock the request
-          HTTPI::Response.new(201, { "X-Result" => "valid" }, "valid!")
+          HTTPI2::Response.new(201, { "X-Result" => "valid" }, "valid!")
         end
 
       }.new
@@ -64,7 +64,7 @@ describe SavonV2 do
       expect(response.http.body).to eq("valid!")
     end
 
-    it "raises if an observer returns something other than nil or an HTTPI::Response" do
+    it "raises if an observer returns something other than nil or an HTTPI2::Response" do
       observer = Class.new {
 
         def notify(*)
@@ -76,7 +76,7 @@ describe SavonV2 do
       SavonV2.observers << observer
 
       expect { new_client.call(:authenticate) }.
-        to raise_error(SavonV2::Error, "Observers need to return an HTTPI::Response " \
+        to raise_error(SavonV2::Error, "Observers need to return an HTTPI2::Response " \
                                      "to mock the request or nil to execute the request.")
     end
   end

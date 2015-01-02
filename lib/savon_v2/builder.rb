@@ -2,7 +2,7 @@ require "savon_v2/header"
 require "savon_v2/message"
 require "nokogiri"
 require "builder"
-require "gyoku"
+require "gyoku_v1"
 
 module SavonV2
   class Builder
@@ -153,7 +153,7 @@ module SavonV2
     def message_tag
       message_tag = @locals[:message_tag]
       message_tag ||= @wsdl.soap_input(@operation_name.to_sym) if @wsdl.document?
-      message_tag ||= Gyoku.xml_tag(@operation_name, :key_converter => @globals[:convert_request_keys_to])
+      message_tag ||= GyokuV1.xml_tag(@operation_name, :key_converter => @globals[:convert_request_keys_to])
 
       @message_tag = message_tag.to_sym
     end

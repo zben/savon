@@ -1,5 +1,5 @@
 require "savon_v2/qualified_message"
-require "gyoku"
+require "gyoku_v1"
 
 module SavonV2
   class Message
@@ -22,13 +22,13 @@ module SavonV2
         @message = QualifiedMessage.new(@types, @used_namespaces, @key_converter).to_hash(@message, [@message_tag.to_s])
       end
 
-      gyoku_options = {
+      gyoku_v1_options = {
         :element_form_default => @element_form_default,
         :namespace            => @namespace_identifier,
         :key_converter        => @key_converter
       }
 
-      Gyoku.xml(@message, gyoku_options)
+      GyokuV1.xml(@message, gyoku_v1_options)
     end
 
   end

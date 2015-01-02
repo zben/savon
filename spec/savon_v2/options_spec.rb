@@ -88,7 +88,7 @@ describe "Options" do
     it 'sets whether or not request should follow redirects' do
       client = new_client(:endpoint => @server.url, :follow_redirects => true)
 
-      HTTPI::Request.any_instance.expects(:follow_redirect=).with(true)
+      HTTPI2::Request.any_instance.expects(:follow_redirect=).with(true)
 
       response = client.call(:authenticate)
     end
@@ -96,7 +96,7 @@ describe "Options" do
     it 'defaults to false' do
       client = new_client(:endpoint => @server.url)
 
-      HTTPI::Request.any_instance.expects(:follow_redirect=).with(false)
+      HTTPI2::Request.any_instance.expects(:follow_redirect=).with(false)
 
       response = client.call(:authenticate)
     end
@@ -108,7 +108,7 @@ describe "Options" do
       client = new_client(:endpoint => @server.url, :proxy => proxy_url)
 
       # TODO: find a way to integration test this [dh, 2012-12-08]
-      HTTPI::Request.any_instance.expects(:proxy=).with(proxy_url)
+      HTTPI2::Request.any_instance.expects(:proxy=).with(proxy_url)
 
       response = client.call(:authenticate)
     end
@@ -138,7 +138,7 @@ describe "Options" do
           warn "Warning: looks like your network may be down?!\n" +
                "-> skipping spec at #{__FILE__}:#{__LINE__}"
         else
-          # TODO: make HTTPI tag timeout errors, then depend on HTTPI::TimeoutError
+          # TODO: make HTTPI2 tag timeout errors, then depend on HTTPI2::TimeoutError
           #       instead of a specific client error [dh, 2012-12-08]
           expect(error).to be_an(HTTPClient::ConnectTimeoutError)
         end
@@ -254,7 +254,7 @@ describe "Options" do
       begin
         client.call(:authenticate, :xml => Fixture.response(:soap_fault))
       rescue SavonV2::SOAPFault => soap_fault
-        # check whether the configured nori instance is used by the soap fault
+        # check whether the configured nori_v2 instance is used by the soap fault
         expect(soap_fault.to_hash[:fault][:faultcode]).to eq("soap:Server")
       end
     end
@@ -291,8 +291,8 @@ describe "Options" do
       expect(stdout.string).to be_empty
     end
 
-    it "silences HTTPI as well" do
-      HTTPI.expects(:log=).with(false)
+    it "silences HTTPI2 as well" do
+      HTTPI2.expects(:log=).with(false)
       new_client(:log => false)
     end
 
@@ -305,8 +305,8 @@ describe "Options" do
       expect(stdout.string).to include("INFO -- : SOAP request")
     end
 
-    it "turns HTTPI logging back on as well" do
-      HTTPI.expects(:log=).with(true)
+    it "turns HTTPI2 logging back on as well" do
+      HTTPI2.expects(:log=).with(true)
       new_client(:log => true)
     end
   end
@@ -326,12 +326,12 @@ describe "Options" do
       expect(logger).to eq(custom_logger)
     end
 
-    it "sets the logger of HTTPI as well" do
+    it "sets the logger of HTTPI2 as well" do
       custom_logger = Logger.new($stdout)
 
       client = new_client(:logger => custom_logger, :log => true)
 
-      expect(HTTPI.logger).to be custom_logger
+      expect(HTTPI2.logger).to be custom_logger
     end
 
   end
@@ -380,7 +380,7 @@ describe "Options" do
 
   context "global :ssl_version" do
     it "sets the SSL version to use" do
-      HTTPI::Auth::SSL.any_instance.expects(:ssl_version=).with(:SSLv3).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:ssl_version=).with(:SSLv3).twice
 
       client = new_client(:endpoint => @server.url, :ssl_version => :SSLv3)
       client.call(:authenticate)
@@ -389,7 +389,7 @@ describe "Options" do
 
   context "global :ssl_verify_mode" do
     it "sets the verify mode to use" do
-      HTTPI::Auth::SSL.any_instance.expects(:verify_mode=).with(:none).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:verify_mode=).with(:none).twice
 
       client = new_client(:endpoint => @server.url, :ssl_verify_mode => :none)
       client.call(:authenticate)
@@ -399,7 +399,7 @@ describe "Options" do
   context "global :ssl_cert_key_file" do
     it "sets the cert key file to use" do
       cert_key = File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__)
-      HTTPI::Auth::SSL.any_instance.expects(:cert_key_file=).with(cert_key).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert_key_file=).with(cert_key).twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_key_file => cert_key)
       client.call(:authenticate)
@@ -409,7 +409,7 @@ describe "Options" do
   context "global :ssl_cert_key" do
     it "sets the cert key to use" do
       cert_key = File.open(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__)).read
-      HTTPI::Auth::SSL.any_instance.expects(:cert_key=).with(cert_key).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert_key=).with(cert_key).twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_key => cert_key)
       client.call(:authenticate)
@@ -421,8 +421,8 @@ describe "Options" do
     it "sets the encrypted cert key file password to use" do
       cert_key = File.expand_path("../../fixtures/ssl/client_encrypted_key.pem", __FILE__)
       cert_key_pass = "secure-password!42"
-      HTTPI::Auth::SSL.any_instance.expects(:cert_key_file=).with(cert_key).twice
-      HTTPI::Auth::SSL.any_instance.expects(:cert_key_password=).with(cert_key_pass).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert_key_file=).with(cert_key).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert_key_password=).with(cert_key_pass).twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_key_file => cert_key, :ssl_cert_key_password => cert_key_pass)
       client.call(:authenticate)
@@ -433,7 +433,7 @@ describe "Options" do
   context "global :ssl_cert_file" do
     it "sets the cert file to use" do
       cert = File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__)
-      HTTPI::Auth::SSL.any_instance.expects(:cert_file=).with(cert).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert_file=).with(cert).twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_file => cert)
       client.call(:authenticate)
@@ -443,7 +443,7 @@ describe "Options" do
   context "global :ssl_cert" do
     it "sets the cert to use" do
       cert = File.open(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__)).read
-      HTTPI::Auth::SSL.any_instance.expects(:cert=).with(cert).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:cert=).with(cert).twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert => cert)
       client.call(:authenticate)
@@ -453,7 +453,7 @@ describe "Options" do
   context "global :ssl_ca_cert_file" do
     it "sets the ca cert file to use" do
       ca_cert = File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__)
-      HTTPI::Auth::SSL.any_instance.expects(:ca_cert_file=).with(ca_cert).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:ca_cert_file=).with(ca_cert).twice
 
       client = new_client(:endpoint => @server.url, :ssl_ca_cert_file => ca_cert)
       client.call(:authenticate)
@@ -463,7 +463,7 @@ describe "Options" do
   context "global :ssl_ca_cert" do
     it "sets the ca cert file to use" do
       ca_cert = File.open(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__)).read
-      HTTPI::Auth::SSL.any_instance.expects(:ca_cert=).with(ca_cert).twice
+      HTTPI2::Auth::SSL.any_instance.expects(:ca_cert=).with(ca_cert).twice
 
       client = new_client(:endpoint => @server.url, :ssl_ca_cert => ca_cert)
       client.call(:authenticate)
@@ -496,7 +496,7 @@ describe "Options" do
 
       # TODO: find a way to integration test this. including an entire ntlm
       # server implementation seems a bit over the top though.
-      HTTPI::Auth::Config.any_instance.expects(:ntlm).with(*credentials)
+      HTTPI2::Auth::Config.any_instance.expects(:ntlm).with(*credentials)
 
       response = client.call(:authenticate)
     end
@@ -848,11 +848,11 @@ describe "Options" do
   end
 
   context 'global: :adapter' do
-    it 'passes option to Wasabi initializer for WSDL fetching' do
+    it 'passes option to WasabiV3 initializer for WSDL fetching' do
       ## I want to use there something similar to the next mock expectation, but I can't
-      ## as due to how SavonV2 sets up Wasabi::Document and Wasabi::Document initialize itself
+      ## as due to how SavonV2 sets up WasabiV3::Document and WasabiV3::Document initialize itself
       ## adapter= method is called first time with nil and second time with adapter. [Envek, 2014-05-03]
-      # Wasabi::Document.any_instance.expects(:adapter=).with(:fake_adapter_for_test)
+      # WasabiV3::Document.any_instance.expects(:adapter=).with(:fake_adapter_for_test)
       client = SavonV2.client(
           :log => false,
           :wsdl => @server.url(:authentication),
@@ -865,7 +865,7 @@ describe "Options" do
       expect(FakeAdapterForTest.class_variable_get(:@@methods)).to eq([:get])
     end
 
-    it 'instructs HTTPI to use provided adapter for performing SOAP requests' do
+    it 'instructs HTTPI2 to use provided adapter for performing SOAP requests' do
       client = new_client_without_wsdl(
           :endpoint => @server.url(:repeat),
           :namespace => "http://v1.example.com",
@@ -948,7 +948,7 @@ describe "Options" do
       expect(response.http.body).to include("<tns:authenticate></tns:authenticate>")
     end
 
-    it "without the option and a WSDL, SavonV2 defaults to Gyoku to create the name" do
+    it "without the option and a WSDL, SavonV2 defaults to GyokuV1 to create the name" do
       client = SavonV2.client(:endpoint => @server.url(:repeat), :namespace => "http://v1.example.com", :log => false)
 
       response = client.call(:init_authentication)
@@ -966,7 +966,7 @@ describe "Options" do
   end
 
   context "request: soap_action" do
-    it "without it, SavonV2 tries to get the SOAPAction from the WSDL document and falls back to Gyoku" do
+    it "without it, SavonV2 tries to get the SOAPAction from the WSDL document and falls back to GyokuV1" do
       client = new_client(:endpoint => @server.url(:inspect_request))
 
       response = client.call(:authenticate)
@@ -984,7 +984,7 @@ describe "Options" do
   end
 
   context "request :message" do
-    it "accepts a Hash which is passed to Gyoku to be converted to XML" do
+    it "accepts a Hash which is passed to GyokuV1 to be converted to XML" do
       response = new_client(:endpoint => @server.url(:repeat)).call(:authenticate, :message => { :user => "luke", :password => "secret" })
 
       request = response.http.body
@@ -1006,10 +1006,10 @@ describe "Options" do
   end
 
   context "request :cookies" do
-    it "accepts an Array of HTTPI::Cookie objects for the next request" do
+    it "accepts an Array of HTTPI2::Cookie objects for the next request" do
       cookies  = [
-        HTTPI::Cookie.new("some-cookie=choc-chip"),
-        HTTPI::Cookie.new("another-cookie=ny-cheesecake")
+        HTTPI2::Cookie.new("some-cookie=choc-chip"),
+        HTTPI2::Cookie.new("another-cookie=ny-cheesecake")
       ]
 
       client   = new_client(:endpoint => @server.url(:inspect_request))
@@ -1024,7 +1024,7 @@ describe "Options" do
   end
 
   context "request :advanced_typecasting" do
-    it "can be changed to false to disable Nori's advanced typecasting" do
+    it "can be changed to false to disable NoriV2's advanced typecasting" do
       client = new_client(:endpoint => @server.url(:repeat))
       response = client.call(:authenticate, :xml => Fixture.response(:authentication), :advanced_typecasting => false)
 
@@ -1033,9 +1033,9 @@ describe "Options" do
   end
 
   context "request :response_parser" do
-    it "instructs Nori to change the response parser" do
-      nori = Nori.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
-      Nori.expects(:new).with { |options| options[:parser] == :nokogiri }.returns(nori)
+    it "instructs NoriV2 to change the response parser" do
+      nori_v2 = NoriV2.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
+      NoriV2.expects(:new).with { |options| options[:parser] == :nokogiri }.returns(nori_v2)
 
       client = new_client(:endpoint => @server.url(:repeat))
       response = client.call(:authenticate, :xml => Fixture.response(:authentication), :response_parser => :nokogiri)

@@ -16,10 +16,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = s.name
   s.license = 'MIT'
 
-  s.add_dependency "httpi",    "~> 1.0"
-  s.add_dependency "wasabi",   "~> 2.0"
   s.add_dependency "akami",    "~> 1.2"
-  s.add_dependency "gyoku",    "~> 1.2"
   s.add_dependency "uuid",     "~> 2.3.7"
 
   s.add_dependency "builder",  ">= 2.1.2"

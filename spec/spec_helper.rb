@@ -14,7 +14,7 @@ end
 require "savon_v2"
 require "rspec"
 
-# don't have HTTPI lazy-load HTTPClient, because then
+# don't have HTTPI2 lazy-load HTTPClient, because then
 # it can't actually be refered to inside the specs.
 require "httpclient"
 
@@ -27,4 +27,4 @@ RSpec.configure do |config|
   config.order = "random"
 end
 
-HTTPI.log = false
+HTTPI2.log = false

@@ -1,5 +1,5 @@
 require "logger"
-require "httpi"
+require "httpi2"
 
 module SavonV2
   class Options
@@ -183,13 +183,13 @@ module SavonV2
 
     # Whether or not to log.
     def log(log)
-      HTTPI.log = log
+      HTTPI2.log = log
       @options[:log] = log
     end
 
     # The logger to use. Defaults to a SavonV2::Logger instance.
     def logger(logger)
-      HTTPI.logger = logger
+      HTTPI2.logger = logger
       @options[:logger] = logger
     end
 
@@ -276,25 +276,25 @@ module SavonV2
       @options[:ntlm] = credentials.flatten
     end
 
-    # Instruct Nori whether to strip namespaces from XML nodes.
+    # Instruct NoriV2 whether to strip namespaces from XML nodes.
     def strip_namespaces(strip_namespaces)
       @options[:strip_namespaces] = strip_namespaces
     end
 
-    # Tell Gyoku how to convert Hash key Symbols to XML tags.
+    # Tell GyokuV1 how to convert Hash key Symbols to XML tags.
     # Accepts one of :lower_camelcase, :camelcase, :upcase, or :none.
     def convert_request_keys_to(converter)
       @options[:convert_request_keys_to] = converter
     end
 
-    # Tell Nori how to convert XML tags from the SOAP response into Hash keys.
+    # Tell NoriV2 how to convert XML tags from the SOAP response into Hash keys.
     # Accepts a lambda or a block which receives an XML tag and returns a Hash key.
     # Defaults to convert tags to snakecase Symbols.
     def convert_response_tags_to(converter = nil, &block)
       @options[:convert_response_tags_to] = block || converter
     end
 
-    # Tell Nori how to convert XML attributes on tags from the SOAP response into Hash keys.
+    # Tell NoriV2 how to convert XML attributes on tags from the SOAP response into Hash keys.
     # Accepts a lambda or a block which receives an XML tag and returns a Hash key.
     # Defaults to doing nothing
     def convert_attributes_to(converter = nil, &block)
@@ -306,7 +306,7 @@ module SavonV2
       @options[:multipart] = multipart
     end
 
-    # Instruct SavonV2 what HTTPI adapter it should use instead of default
+    # Instruct SavonV2 what HTTPI2 adapter it should use instead of default
     def adapter(adapter)
       @options[:adapter] = adapter
     end
@@ -354,7 +354,7 @@ module SavonV2
     end
 
     # SOAP message tag (formerly known as SOAP input tag). If it's not set, SavonV2 retrieves the name from
-    # the WSDL document (if available). Otherwise, Gyoku converts the operation name into an XML element.
+    # the WSDL document (if available). Otherwise, GyokuV1 converts the operation name into an XML element.
     def message_tag(message_tag)
       @options[:message_tag] = message_tag
     end
@@ -379,12 +379,12 @@ module SavonV2
       @options[:xml] = xml
     end
 
-    # Instruct Nori to use advanced typecasting.
+    # Instruct NoriV2 to use advanced typecasting.
     def advanced_typecasting(advanced)
       @options[:advanced_typecasting] = advanced
     end
 
-    # Instruct Nori to use :rexml or :nokogiri to parse the response.
+    # Instruct NoriV2 to use :rexml or :nokogiri to parse the response.
     def response_parser(parser)
       @options[:response_parser] = parser
     end

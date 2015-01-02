@@ -2,7 +2,7 @@ require "savon_v2/operation"
 require "savon_v2/request"
 require "savon_v2/options"
 require "savon_v2/block_interface"
-require "wasabi"
+require "wasabi_v3"
 
 module SavonV2
   class Client
@@ -55,7 +55,7 @@ module SavonV2
     end
 
     def build_wsdl_document
-      @wsdl = Wasabi::Document.new
+      @wsdl = WasabiV3::Document.new
 
       @wsdl.document    = @globals[:wsdl]        if @globals.include? :wsdl
       @wsdl.endpoint    = @globals[:endpoint]    if @globals.include? :endpoint

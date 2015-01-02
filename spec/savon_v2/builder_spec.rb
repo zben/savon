@@ -6,8 +6,8 @@ describe SavonV2::Builder do
 
   let(:globals)     { SavonV2::GlobalOptions.new }
   let(:locals)      { SavonV2::LocalOptions.new }
-  let(:wsdl)        { Wasabi::Document.new Fixture.wsdl(:authentication) }
-  let(:no_wsdl)     { Wasabi::Document.new }
+  let(:wsdl)        { WasabiV3::Document.new Fixture.wsdl(:authentication) }
+  let(:no_wsdl)     { WasabiV3::Document.new }
 
   describe "#pretty" do
     it "returns the pretty printed request" do
@@ -43,7 +43,7 @@ describe SavonV2::Builder do
       expect(builder.to_s).to include("<tns:authenticate>")
     end
 
-    it "includes a message tag created by Gyoku if both option and WSDL are missing" do
+    it "includes a message tag created by GyokuV1 if both option and WSDL are missing" do
       globals[:namespace] = "http://v1.example.com"
 
       locals = SavonV2::LocalOptions.new

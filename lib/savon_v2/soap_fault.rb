@@ -12,35 +12,35 @@ module SavonV2
       fault_node && (soap1_fault || soap2_fault)
     end
 
-    def initialize(http, nori, xml = nil)
+    def initialize(http, nori_v2, xml = nil)
       @xml = xml
       @http = http
-      @nori = nori
+      @nori_v2 = nori_v2
     end
 
-    attr_reader :http, :nori, :xml
+    attr_reader :http, :nori_v2, :xml
 
     def to_s
-      fault = nori.find(to_hash, 'Fault')
+      fault = nori_v2.find(to_hash, 'Fault')
       message_by_version(fault)
     end
 
     def to_hash
-      parsed = nori.parse(xml || http.body)
-      nori.find(parsed, 'Envelope', 'Body')
+      parsed = nori_v2.parse(xml || http.body)
+      nori_v2.find(parsed, 'Envelope', 'Body')
     end
 
     private
 
     def message_by_version(fault)
-      if nori.find(fault, 'faultcode')
-        code = nori.find(fault, 'faultcode')
-        text = nori.find(fault, 'faultstring')
+      if nori_v2.find(fault, 'faultcode')
+        code = nori_v2.find(fault, 'faultcode')
+        text = nori_v2.find(fault, 'faultstring')
 
         "(#{code}) #{text}"
-      elsif nori.find(fault, 'Code')
-        code = nori.find(fault, 'Code', 'Value')
-        text = nori.find(fault, 'Reason', 'Text')
+      elsif nori_v2.find(fault, 'Code')
+        code = nori_v2.find(fault, 'Code', 'Value')
+        text = nori_v2.find(fault, 'Reason', 'Text')
 
         "(#{code}) #{text}"
       end

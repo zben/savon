@@ -20,8 +20,8 @@ describe SavonV2::HTTPError do
   end
 
   describe "#http" do
-    it "returns the HTTPI::Response" do
-      expect(http_error.http).to be_a(HTTPI::Response)
+    it "returns the HTTPI2::Response" do
+      expect(http_error.http).to be_a(HTTPI2::Response)
     end
   end
 
@@ -43,7 +43,7 @@ describe SavonV2::HTTPError do
     defaults = { :code => 200, :headers => {}, :body => Fixture.response(:authentication) }
     response = defaults.merge options
 
-    HTTPI::Response.new response[:code], response[:headers], response[:body]
+    HTTPI2::Response.new response[:code], response[:headers], response[:body]
   end
 
 end

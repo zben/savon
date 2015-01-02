@@ -1,23 +1,23 @@
 require "spec_helper"
 
 describe SavonV2::SOAPFault do
-  let(:soap_fault) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault)), nori }
-  let(:soap_fault2) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault12)), nori }
-  let(:soap_fault_nc) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault)), nori_no_convert }
-  let(:soap_fault_nc2) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault12)), nori_no_convert }
-  let(:another_soap_fault) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:another_soap_fault)), nori }
-  let(:no_fault) { SavonV2::SOAPFault.new new_response, nori }
+  let(:soap_fault) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault)), nori_v2 }
+  let(:soap_fault2) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault12)), nori_v2 }
+  let(:soap_fault_nc) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault)), nori_v2_no_convert }
+  let(:soap_fault_nc2) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:soap_fault12)), nori_v2_no_convert }
+  let(:another_soap_fault) { SavonV2::SOAPFault.new new_response(:body => Fixture.response(:another_soap_fault)), nori_v2 }
+  let(:no_fault) { SavonV2::SOAPFault.new new_response, nori_v2 }
 
-  let(:nori) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
-  let(:nori_no_convert) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => nil) }
+  let(:nori_v2) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
+  let(:nori_v2_no_convert) { NoriV2.new(:strip_namespaces => true, :convert_tags_to => nil) }
 
   it "inherits from SavonV2::Error" do
     expect(SavonV2::SOAPFault.ancestors).to include(SavonV2::Error)
   end
 
   describe "#http" do
-    it "returns the HTTPI::Response" do
-      expect(soap_fault.http).to be_an(HTTPI::Response)
+    it "returns the HTTPI2::Response" do
+      expect(soap_fault.http).to be_an(HTTPI2::Response)
     end
   end
 
@@ -120,7 +120,7 @@ describe SavonV2::SOAPFault do
     defaults = { :code => 500, :headers => {}, :body => Fixture.response(:authentication) }
     response = defaults.merge options
 
-    HTTPI::Response.new response[:code], response[:headers], response[:body]
+    HTTPI2::Response.new response[:code], response[:headers], response[:body]
   end
 
 end

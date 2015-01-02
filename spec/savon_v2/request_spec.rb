@@ -4,16 +4,16 @@ require "integration/support/server"
 describe SavonV2::WSDLRequest do
 
   let(:globals)      { SavonV2::GlobalOptions.new }
-  let(:http_request) { HTTPI::Request.new }
+  let(:http_request) { HTTPI2::Request.new }
 
   def new_wsdl_request
     SavonV2::WSDLRequest.new(globals, http_request)
   end
 
   describe "#build" do
-    it "returns an HTTPI::Request" do
+    it "returns an HTTPI2::Request" do
       wsdl_request = SavonV2::WSDLRequest.new(globals)
-      expect(wsdl_request.build).to be_an(HTTPI::Request)
+      expect(wsdl_request.build).to be_an(HTTPI2::Request)
     end
 
     describe "proxy" do
@@ -231,16 +231,16 @@ end
 describe SavonV2::SOAPRequest do
 
   let(:globals)      { SavonV2::GlobalOptions.new }
-  let(:http_request) { HTTPI::Request.new }
+  let(:http_request) { HTTPI2::Request.new }
 
   def new_soap_request
     SavonV2::SOAPRequest.new(globals, http_request)
   end
 
   describe "#build" do
-    it "returns an HTTPI::Request" do
+    it "returns an HTTPI2::Request" do
       soap_request = SavonV2::SOAPRequest.new(globals)
-      expect(soap_request.build).to be_an(HTTPI::Request)
+      expect(soap_request.build).to be_an(HTTPI2::Request)
     end
 
     describe "proxy" do
@@ -259,7 +259,7 @@ describe SavonV2::SOAPRequest do
 
     describe "cookies" do
       it "sets the given cookies" do
-        cookies = [HTTPI::Cookie.new("some-cookie=choc-chip; Path=/; HttpOnly")]
+        cookies = [HTTPI2::Cookie.new("some-cookie=choc-chip; Path=/; HttpOnly")]
 
         http_request.expects(:set_cookies).with(cookies)
         new_soap_request.build(:cookies => cookies)

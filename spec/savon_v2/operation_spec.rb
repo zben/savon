@@ -6,10 +6,10 @@ require "ostruct"
 describe SavonV2::Operation do
 
   let(:globals) { SavonV2::GlobalOptions.new(:endpoint => @server.url(:repeat), :log => false) }
-  let(:wsdl)    { Wasabi::Document.new Fixture.wsdl(:taxcloud) }
+  let(:wsdl)    { WasabiV3::Document.new Fixture.wsdl(:taxcloud) }
 
   let(:no_wsdl) {
-    wsdl = Wasabi::Document.new
+    wsdl = WasabiV3::Document.new
 
     wsdl.endpoint  = "http://example.com"
     wsdl.namespace = "http://v1.example.com"
@@ -71,12 +71,12 @@ describe SavonV2::Operation do
 
     it "uses the global :endpoint option for the request" do
       globals.endpoint("http://v1.example.com")
-      HTTPI::Request.any_instance.expects(:url=).with("http://v1.example.com")
+      HTTPI2::Request.any_instance.expects(:url=).with("http://v1.example.com")
 
       operation = new_operation(:verify_address, wsdl, globals)
 
       # stub the actual request
-      http_response = HTTPI::Response.new(200, {}, "")
+      http_response = HTTPI2::Response.new(200, {}, "")
       operation.expects(:call_with_logging).returns(http_response)
 
       operation.call
@@ -84,12 +84,12 @@ describe SavonV2::Operation do
 
     it "falls back to use the WSDL's endpoint if the :endpoint option was not set" do
       globals_without_endpoint = SavonV2::GlobalOptions.new(:log => false)
-      HTTPI::Request.any_instance.expects(:url=).with(wsdl.endpoint)
+      HTTPI2::Request.any_instance.expects(:url=).with(wsdl.endpoint)
 
       operation = new_operation(:verify_address, wsdl, globals_without_endpoint)
 
       # stub the actual request
-      http_response = HTTPI::Response.new(200, {}, "")
+      http_response = HTTPI2::Response.new(200, {}, "")
       operation.expects(:call_with_logging).returns(http_response)
 
       operation.call
@@ -97,7 +97,7 @@ describe SavonV2::Operation do
 
     it "sets the Content-Length header" do
       # XXX: probably the worst spec ever written. refactor! [dh, 2013-01-05]
-      http_request = HTTPI::Request.new
+      http_request = HTTPI2::Request.new
       http_request.headers.expects(:[]=).with("Content-Length", "312")
       SavonV2::SOAPRequest.any_instance.expects(:build).returns(http_request)
 
@@ -117,9 +117,9 @@ describe SavonV2::Operation do
 
     it "uses the local :cookies option" do
       globals.endpoint @server.url(:inspect_request)
-      cookies = [HTTPI::Cookie.new("some-cookie=choc-chip")]
+      cookies = [HTTPI2::Cookie.new("some-cookie=choc-chip")]
 
-      HTTPI::Request.any_instance.expects(:set_cookies).with(cookies)
+      HTTPI2::Request.any_instance.expects(:set_cookies).with(cookies)
 
       operation = new_operation(:verify_address, wsdl, globals)
       operation.call(:cookies => cookies)
@@ -145,7 +145,7 @@ describe SavonV2::Operation do
       expect(actual_soap_action).to eq('"http://taxcloud.net/VerifyAddress"')
     end
 
-    it "falls back to Gyoku if both option and WSDL are not available" do
+    it "falls back to GyokuV1 if both option and WSDL are not available" do
       globals.endpoint @server.url(:inspect_request)
 
       operation = new_operation(:authenticate, no_wsdl, globals)

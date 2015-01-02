@@ -1,12 +1,12 @@
 require "akami"
-require "gyoku"
+require "gyoku_v1"
 require "uuid"
 
 module SavonV2
   class Header
 
     def initialize(globals, locals)
-      @gyoku_options  = { :key_converter => globals[:convert_request_keys_to] }
+      @gyoku_v1_options  = { :key_converter => globals[:convert_request_keys_to] }
 
       @wsse_auth      = locals[:wsse_auth].nil? ? globals[:wsse_auth] : locals[:wsse_auth]
       @wsse_timestamp = locals[:wsse_timestamp].nil? ? globals[:wsse_timestamp] : locals[:wsse_timestamp]
@@ -21,7 +21,7 @@ module SavonV2
       @header = build
     end
 
-    attr_reader :local_header, :global_header, :gyoku_options,
+    attr_reader :local_header, :global_header, :gyoku_v1_options,
                 :wsse_auth, :wsse_timestamp, :wsse_signature
 
     def empty?
@@ -67,7 +67,7 @@ module SavonV2
 
     def convert_to_xml(hash_or_string)
       if hash_or_string.kind_of? Hash
-        Gyoku.xml(hash_or_string, gyoku_options)
+        GyokuV1.xml(hash_or_string, gyoku_v1_options)
       else
         hash_or_string.to_s
       end

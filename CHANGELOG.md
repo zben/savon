@@ -1,9 +1,9 @@
 # 2.8.0 (2014-11-12)
 
 * Feature : [#620](https://github.com/savon_v2rb/savon_v2/pull/620) add #build_request method that builds the actual XML request body, but does not submit it. Useful for debugging, possibly.
-* Fix : Loosened dependencies on Gyoku, Nori, Akami, and other SavonV2-dependency gems
-* Feature: [#636](https://github.com/savon_v2rb/savon_v2/pull/636) Set HTTPI.logger when SavonV2's logger is configured.
-* Feature: [#639](https://github.com/savon_v2rb/savon_v2/issues/639) Allow setting any SSL version that OpenSSL provides. See [the relevant HTTPI issue](https://github.com/savon_v2rb/httpi/pull/136) for more information.
+* Fix : Loosened dependencies on GyokuV1, NoriV2, Akami, and other SavonV2-dependency gems
+* Feature: [#636](https://github.com/savon_v2rb/savon_v2/pull/636) Set HTTPI2.logger when SavonV2's logger is configured.
+* Feature: [#639](https://github.com/savon_v2rb/savon_v2/issues/639) Allow setting any SSL version that OpenSSL provides. See [the relevant HTTPI2 issue](https://github.com/savon_v2rb/httpi2/pull/136) for more information.
 
 # 2.7.2 (2014-09-23)
 
@@ -26,7 +26,7 @@ Fix : Preserve false values (https://github.com/savon_v2rb/savon_v2/issues/321)
 
 * Feature: [#573](https://github.com/savon_v2rb/savon_v2/pull/573) Add an `all_operations` method to `SavonV2::Model` that automatically adds all available operations to the model.
 
-* Feature: [#566](https://github.com/savon_v2rb/savon_v2/pull/566) Allow specifying HTTPI adapter per client.
+* Feature: [#566](https://github.com/savon_v2rb/savon_v2/pull/566) Allow specifying HTTPI2 adapter per client.
 
 ```ruby
     curb_client = SavonV2.client(wsdl: "http://example.com/service.wsdl", adapter: :curb)
@@ -55,7 +55,7 @@ Fix : Preserve false values (https://github.com/savon_v2rb/savon_v2/issues/321)
 
 Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/481)
 
-* Feature: [#405](https://github.com/savon_v2rb/savon_v2/issues/405) Improved NTLM support based on HTTPI v2.1.0.
+* Feature: [#405](https://github.com/savon_v2rb/savon_v2/issues/405) Improved NTLM support based on HTTPI2 v2.1.0.
 
 * Feature: [#424](https://github.com/savon_v2rb/savon_v2/issues/424) Adds support for multipart responses
   through the updated [savon_v2-multipart](https://github.com/savon_v2rb/savon_v2-multipart) gem. You can now
@@ -124,8 +124,8 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
     ```
 
 * Improvement: [#385](https://github.com/savon_v2rb/savon_v2/issues/385) Instead of raising an
-  `ArgumentError` when Wasabi can't find any operations in the WSDL. SavonV2 now raises a
-  `SavonV2::UnknownOperationError`. This might happen when Wasabi fails to parse the WSDL
+  `ArgumentError` when WasabiV3 can't find any operations in the WSDL. SavonV2 now raises a
+  `SavonV2::UnknownOperationError`. This might happen when WasabiV3 fails to parse the WSDL
   because of imports for example.
 
 * Fix: [#430](https://github.com/savon_v2rb/savon_v2/pull/430) allows you to rescue and ignore
@@ -134,7 +134,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 * Fix: [#393](https://github.com/savon_v2rb/savon_v2/pull/393) changed `SavonV2::SOAPFault` to work
   with generic response Hash keys.
 
-* Fix: [#423](https://github.com/savon_v2rb/savon_v2/issues/423) fixes a problem where Wasabi was
+* Fix: [#423](https://github.com/savon_v2rb/savon_v2/issues/423) fixes a problem where WasabiV3 was
   not able to find extension base elements defined in imports it didn't follow.
 
 ### 2.1.0 (2013-02-03)
@@ -171,7 +171,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 
 ### 2.0.3 (2013-01-19)
 
-* Upgraded Nori dependency to prevent people from using a version that is vulnerable to
+* Upgraded NoriV2 dependency to prevent people from using a version that is vulnerable to
   the recent [remote code execution bug](https://gist.github.com/4532291).
 
 ### 2.0.2 (2012-12-20)
@@ -211,7 +211,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 * Improvement: [#318](https://github.com/savon_v2rb/savon_v2/pull/318) isolates building the request to
   improve threadsafety.
 
-* Refactoring: Use the `Wasabi::Document` with resolver instead of the custom `SavonV2::Wasabi::Document`.
+* Refactoring: Use the `WasabiV3::Document` with resolver instead of the custom `SavonV2::WasabiV3::Document`.
 
 ### 1.1.0 (2012-06-28)
 
@@ -220,7 +220,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
   This should improve the stability of the library and make it easier to update, because changes
   to these core dependencies will be documented here as well.
 
-* Fix: The latest version of Wasabi should now correctly detect the names of your operations.
+* Fix: The latest version of WasabiV3 should now correctly detect the names of your operations.
   So you should be able to just get the names of some operation:
 
     ``` ruby
@@ -238,7 +238,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
     You shouldn't need to specify a namespace or additional attributes for the tag.
 
 * Refactoring: Moved code that sets the cookies from the last response for the
-  next request to `HTTPI::Request#set_cookies`.
+  next request to `HTTPI2::Request#set_cookies`.
 
 ### 1.0.0 (2012-06-09)
 
@@ -247,7 +247,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 * Improvement: [#291](https://github.com/savon_v2rb/savon_v2/issues/291) changed the `:soap_request` hook to act
   like an around filter. The hook now receives a callback block to execute the SOAP call and can return
   the result of the callback to continue the request. It can also not call the callback block and return
-  some `HTTPI::Response` to mock the SOAP request.
+  some `HTTPI2::Response` to mock the SOAP request.
 
     As this change affects `savon_v2_spec`, you need to update `savon_v2_spec` to v1.3.0.
 
@@ -425,14 +425,14 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 
 ### 0.9.6 (2011-07-07)
 
-* Improvement/Fix: Updated SavonV2 to use the latest version of [Wasabi](http://rubygems.org/gems/wasabi).
+* Improvement/Fix: Updated SavonV2 to use the latest version of [WasabiV3](http://rubygems.org/gems/wasabi_v3).
   This should fix [issue 155](https://github.com/savon_v2rb/savon_v2/issues/155) - SavonV2 can automatically add namespaces
   to SOAP requests based on the WSDL. Users shouldn't need to do anything differently or even notice whether their WSDL
   hits this case; the intention is that this will "Just Work" and follow the WSDL. The SOAP details are that if
   elementFormDefault is specified as qualified, SavonV2 will automatically prepend the correct XML namespaces to the
   elements in a SOAP request. Thanks to [jkingdon](https://github.com/jkingdon) for this.
 
-* Fix: [issue 143](https://github.com/savon_v2rb/savon_v2/issues/143) - Updating Wasabi should solve this issue.
+* Fix: [issue 143](https://github.com/savon_v2rb/savon_v2/issues/143) - Updating WasabiV3 should solve this issue.
 
 ### 0.9.5 (2011-07-03)
 
@@ -440,7 +440,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 
 ### 0.9.4 (2011-07-03)
 
-* Refactoring: Extracted the WSDL parser out into the [wasabi](http://rubygems.org/gems/wasabi) gem.
+* Refactoring: Extracted the WSDL parser out into the [wasabi_v3](http://rubygems.org/gems/wasabi_v3) gem.
   This should isolate upcoming improvements to the parser.
 
 ### 0.9.3 (2011-06-30)
@@ -455,16 +455,16 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
   add the following line to your Gemfile:
 
     ``` ruby
-    gem "httpi", "0.9.4"
+    gem "httpi2", "0.9.4"
     ```
 
 * Refactoring:
 
-  * `Hash#map_soap_response` and some of its helpers are moved to [Nori v1.0.0](http://rubygems.org/gems/nori/versions/1.0.0).
-    Along with replacing core extensions with a proper implementation, Nori now contains a number of methods
-    for [configuring its default behavior](https://github.com/savon_v2rb/nori/blob/master/CHANGELOG.md):
+  * `Hash#map_soap_response` and some of its helpers are moved to [NoriV2 v1.0.0](http://rubygems.org/gems/nori_v2/versions/1.0.0).
+    Along with replacing core extensions with a proper implementation, NoriV2 now contains a number of methods
+    for [configuring its default behavior](https://github.com/savon_v2rb/nori_v2/blob/master/CHANGELOG.md):
 
-      * The option whether to strip namespaces was moved to Nori.strip_namespaces
+      * The option whether to strip namespaces was moved to NoriV2.strip_namespaces
       * You can disable "advanced typecasting" for SOAP response values
       * And you can configure how SOAP response keys should be converted
 
@@ -473,7 +473,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
     response and translate it to a SavonV2 SOAP response Hash via:
 
         ``` ruby
-        Nori.parse(xml)[:envelope][:body]
+        NoriV2.parse(xml)[:envelope][:body]
         ```
 
   * `SavonV2::SOAP::Response#basic_hash` is now `SavonV2::SOAP::Response#hash`.
@@ -487,11 +487,11 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
   Thanks to [mleon](https://github.com/mleon) for solving [issue #142](https://github.com/savon_v2rb/savon_v2/issues/142).
 
 * Improvement: Switched from using Crack to translate the SOAP response to a Hash to using
-  [Nori](http://rubygems.org/gems/nori). It's based on Crack and comes with pluggable parsers.
+  [NoriV2](http://rubygems.org/gems/nori_v2). It's based on Crack and comes with pluggable parsers.
   It defaults to REXML, but you can switch to Nokogiri via:
 
     ``` ruby
-    Nori.parser = :nokogiri
+    NoriV2.parser = :nokogiri
     ```
 
 * Improvement: WSDL parsing now uses Nokogiri instead of REXML.
@@ -517,18 +517,18 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 * Feature: issues [#158](https://github.com/savon_v2rb/savon_v2/issues/158),
   [#169](https://github.com/savon_v2rb/savon_v2/issues/169) and [#172](https://github.com/savon_v2rb/savon_v2/issues/172)
   configurable "Hash key Symbol to lowerCamelCase" conversion by using the latest version of
-  [Gyoku](http://rubygems.org/gems/gyoku).
+  [GyokuV1](http://rubygems.org/gems/gyoku_v1).
 
     ``` ruby
-    Gyoku.convert_symbols_to(:camelcase)
-    Gyoku.xml(:first_name => "Mac")  # => "<FirstName></Firstname>"
+    GyokuV1.convert_symbols_to(:camelcase)
+    GyokuV1.xml(:first_name => "Mac")  # => "<FirstName></Firstname>"
     ```
 
     You can even define your own conversion formular.
 
     ``` ruby
-    Gyoku.convert_symbols_to { |key| key.upcase }
-    Gyoku.xml(:first_name => "Mac")  # => "<FIRST_NAME></FIRST_NAME>"
+    GyokuV1.convert_symbols_to { |key| key.upcase }
+    GyokuV1.xml(:first_name => "Mac")  # => "<FIRST_NAME></FIRST_NAME>"
     ```
 
     This should also work for the SOAP input tag and SOAPAction header. So if you had to use a String for
@@ -536,13 +536,13 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
     change the default and use Symbols instead.
 
     ``` ruby
-    Gyoku.convert_symbols_to(:camelcase)
+    GyokuV1.convert_symbols_to(:camelcase)
 
-    # pre Gyoku 0.4.0
+    # pre GyokuV1 0.4.0
     client.request(:get_user)  # => "<getUser/>
     client.request("GetUser")  # => "<GetUser/>"
 
-    # post Gyoku 0.4.0
+    # post GyokuV1 0.4.0
     client.request(:get_user)  # => "<GetUser/>"
     ```
 
@@ -560,7 +560,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
     ```
 
 * Fix: [issue #163](https://github.com/savon_v2rb/savon_v2/issues/163) "SavonV2 0.8.6 not playing nicely
-  with Httpi 0.9.0". Updating HTTPI to v0.9.1 should solve this problem.
+  with Httpi 0.9.0". Updating HTTPI2 to v0.9.1 should solve this problem.
 
 * And if you haven't already seen the new documentation: [savon_v2rb.com](http://savon_v2rb.com)
 
@@ -625,7 +625,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
 
 ### 0.8.1 (2010-12-22)
 
-* Update to depend on HTTPI v0.7.5 which comes with a fallback to use Net::HTTP when no other adapter could be required.
+* Update to depend on HTTPI2 v0.7.5 which comes with a fallback to use Net::HTTP when no other adapter could be required.
 
 * Fix for [issue #72](https://github.com/savon_v2rb/savon_v2/issues/72) ([22074a](https://github.com/savon_v2rb/savon_v2/commit/22074a8)).
 
@@ -638,7 +638,7 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
   tags without a namespace.
 
 * Replaced quite a lot of core extensions by moving the Hash to XML translation into a new gem called
-  [Gyoku](http://rubygems.org/gems/gyoku) ([bac4b4](https://github.com/savon_v2rb/savon_v2/commit/bac4b4)).
+  [GyokuV1](http://rubygems.org/gems/gyoku_v1) ([bac4b4](https://github.com/savon_v2rb/savon_v2/commit/bac4b4)).
 
 ### 0.8.0.beta.4 (2010-11-20)
 
@@ -760,23 +760,23 @@ Combined release ticket: [#481](https://github.com/savon_v2rb/savon_v2/issues/48
   SavonV2 will set the target namespace to "xmlns:wsdl". But if you do specify a namespace, it will
   be set to the given Symbol.
 
-* Refactored SavonV2 to use the new [HTTPI](http://rubygems.org/gems/httpi) gem.
-  `HTTPI::Request` replaces the `SavonV2::Request`, so please make sure to have a look
-  at the HTTPI library and let me know about any problems. Using HTTPI actually
+* Refactored SavonV2 to use the new [HTTPI2](http://rubygems.org/gems/httpi2) gem.
+  `HTTPI2::Request` replaces the `SavonV2::Request`, so please make sure to have a look
+  at the HTTPI2 library and let me know about any problems. Using HTTPI2 actually
   fixes the following two issues.
 
 * SavonV2 now adds both "xmlns:xsd" and "xmlns:xsi" namespaces for you. Thanks Averell.
   It also properly serializes nil values as xsi:nil = "true".
 
 * Fix for [issue #24](https://github.com/savon_v2rb/savon_v2/issues/24).
-  Instead of Net/HTTP, SavonV2 now uses HTTPI to execute HTTP requests.
-  HTTPI defaults to use HTTPClient which supports HTTP digest authentication.
+  Instead of Net/HTTP, SavonV2 now uses HTTPI2 to execute HTTP requests.
+  HTTPI2 defaults to use HTTPClient which supports HTTP digest authentication.
 
 * Fix for [issue #76](https://github.com/savon_v2rb/savon_v2/issues/76).
   You now have to explicitly specify whether to use a WSDL document, when instantiating a client.
 
 * Fix for [issue #75](https://github.com/savon_v2rb/savon_v2/issues/75).
-  Both `SavonV2::SOAP::Fault` and `SavonV2::HTTP::Error` now contain the `HTTPI::Response`.
+  Both `SavonV2::SOAP::Fault` and `SavonV2::HTTP::Error` now contain the `HTTPI2::Response`.
   They also inherit from `SavonV2::Error`, making it easier to rescue both at the same time.
 
 * Fix for [issue #87](https://github.com/savon_v2rb/savon_v2/issues/87).

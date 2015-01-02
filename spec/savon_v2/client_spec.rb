@@ -28,12 +28,12 @@ describe SavonV2::Client do
       expect(client.globals[:wsdl]).to eq(Fixture.wsdl(:authentication))
     end
 
-    it "builds an HTTPI request for Wasabi" do
+    it "builds an HTTPI2 request for WasabiV3" do
       http_request = mock
       wsdl_request = mock(:build => http_request)
       SavonV2::WSDLRequest.expects(:new).with(instance_of(SavonV2::GlobalOptions)).returns(wsdl_request)
 
-      Wasabi::Document.any_instance.expects(:request=).with(http_request)
+      WasabiV3::Document.any_instance.expects(:request=).with(http_request)
       SavonV2.client(:wsdl => "http://example.com")
     end
 
@@ -107,13 +107,13 @@ describe SavonV2::Client do
       locals = { :message => { :symbol => "AAPL" } }
       soap_response = new_soap_response
 
-      wsdl = Wasabi::Document.new('http://example.com')
+      wsdl = WasabiV3::Document.new('http://example.com')
       operation = SavonV2::Operation.new(:authenticate, wsdl, SavonV2::GlobalOptions.new)
       operation.expects(:call).with(locals).returns(soap_response)
 
       SavonV2::Operation.expects(:create).with(
         :authenticate,
-        instance_of(Wasabi::Document),
+        instance_of(WasabiV3::Document),
         instance_of(SavonV2::GlobalOptions)
       ).returns(operation)
 
@@ -173,7 +173,7 @@ describe SavonV2::Client do
   describe "#build_request" do
     it "returns the request without making an actual call" do
       expected_request = mock('request')
-      wsdl = Wasabi::Document.new('http://example.com')
+      wsdl = WasabiV3::Document.new('http://example.com')
 
       operation = SavonV2::Operation.new(
         :authenticate,
@@ -184,7 +184,7 @@ describe SavonV2::Client do
 
       SavonV2::Operation.expects(:create).with(
         :authenticate,
-        instance_of(Wasabi::Document),
+        instance_of(WasabiV3::Document),
         instance_of(SavonV2::GlobalOptions)
       ).returns(operation)
 
@@ -247,7 +247,7 @@ describe SavonV2::Client do
     defaults = { :code => 200, :headers => {}, :body => Fixture.response(:authentication) }
     response = defaults.merge options
 
-    HTTPI::Response.new response[:code], response[:headers], response[:body]
+    HTTPI2::Response.new response[:code], response[:headers], response[:body]
   end
 
   def new_soap_response(options = {})

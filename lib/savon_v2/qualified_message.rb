@@ -1,4 +1,4 @@
-require "gyoku"
+require "gyoku_v1"
 
 module SavonV2
   class QualifiedMessage
@@ -19,7 +19,7 @@ module SavonV2
           add_namespaces_to_values(value, path)
           newhash.merge(key => value)
         else
-          translated_key = Gyoku.xml_tag(key, :key_converter => @key_converter).to_s
+          translated_key = GyokuV1.xml_tag(key, :key_converter => @key_converter).to_s
           translated_key << "!" if key[-1] == "!"
           newpath = path + [translated_key]
 
@@ -39,7 +39,7 @@ module SavonV2
 
     def add_namespaces_to_values(values, path)
       values.collect! { |value|
-        camelcased_value = Gyoku.xml_tag(value, :key_converter => @key_converter)
+        camelcased_value = GyokuV1.xml_tag(value, :key_converter => @key_converter)
         namespace_path = path + [camelcased_value.to_s]
         namespace = @used_namespaces[namespace_path]
         "#{namespace.blank? ? '' : namespace + ":"}#{camelcased_value}"

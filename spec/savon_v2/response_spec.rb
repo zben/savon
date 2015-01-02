@@ -184,7 +184,7 @@ describe SavonV2::Response do
       end
 
       it "should properly return FalseClass values [#327]" do
-        body = Gyoku.xml(:envelope => { :body => { :return => { :success => false } } })
+        body = GyokuV1.xml(:envelope => { :body => { :return => { :success => false } } })
         expect(soap_response(:body => body).to_array(:return, :success)).to eq([false])
       end
     end
@@ -229,7 +229,7 @@ describe SavonV2::Response do
   end
 
   describe '#find' do
-    it 'delegates to Nori#find to find child elements inside the Envelope' do
+    it 'delegates to NoriV2#find to find child elements inside the Envelope' do
       result = soap_response.find('Body', 'authenticateResponse', 'return')
 
       expect(result).to be_a(Hash)
@@ -238,15 +238,15 @@ describe SavonV2::Response do
   end
 
   describe "#http" do
-    it "should return the HTTPI::Response" do
-      expect(soap_response.http).to be_an(HTTPI::Response)
+    it "should return the HTTPI2::Response" do
+      expect(soap_response.http).to be_an(HTTPI2::Response)
     end
   end
 
   def soap_response(options = {})
     defaults = { :code => 200, :headers => {}, :body => Fixture.response(:authentication) }
     response = defaults.merge options
-    http_response = HTTPI::Response.new(response[:code], response[:headers], response[:body])
+    http_response = HTTPI2::Response.new(response[:code], response[:headers], response[:body])
 
     SavonV2::Response.new(http_response, globals, locals)
   end
@@ -262,7 +262,7 @@ describe SavonV2::Response do
   def invalid_soap_response(options = {})
     defaults = { :code => 200, :headers => {}, :body => "I'm not SOAP" }
     response = defaults.merge options
-    http_response = HTTPI::Response.new(response[:code], response[:headers], response[:body])
+    http_response = HTTPI2::Response.new(response[:code], response[:headers], response[:body])
 
     SavonV2::Response.new(http_response, globals, locals)
   end

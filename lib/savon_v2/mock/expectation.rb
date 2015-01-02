@@ -1,4 +1,4 @@
-require "httpi"
+require "httpi2"
 
 module SavonV2
   class MockExpectation
@@ -41,7 +41,7 @@ module SavonV2
         raise ExpectationError, "This expectation was not set up with a response."
       end
 
-      HTTPI::Response.new(@response[:code], @response[:headers], @response[:body])
+      HTTPI2::Response.new(@response[:code], @response[:headers], @response[:body])
     end
 
     private

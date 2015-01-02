@@ -39,7 +39,7 @@ describe SavonV2 do
 
   def message_tag_for(fixture, operation_name)
     globals     = SavonV2::GlobalOptions.new(:log => false)
-    wsdl        = Wasabi::Document.new Fixture.wsdl(fixture)
+    wsdl        = WasabiV3::Document.new Fixture.wsdl(fixture)
     operation   = SavonV2::Operation.create(operation_name, wsdl, globals)
     request_xml = operation.build.to_s
 

@@ -1,11 +1,11 @@
-require "httpi"
+require "httpi2"
 
 module SavonV2
   class HTTPRequest
 
     def initialize(globals, http_request = nil)
       @globals = globals
-      @http_request = http_request || HTTPI::Request.new
+      @http_request = http_request || HTTPI2::Request.new
     end
 
     def build

@@ -1,7 +1,7 @@
-require 'httpi/adapter/httpclient'
+require 'httpi2/adapter/httpclient'
 
 # Proxy adapter. Records all requests and passes them to HTTPClient
-class AdapterForTest < HTTPI::Adapter::Base
+class AdapterForTest < HTTPI2::Adapter::Base
 
   register :adapter_for_test
 
@@ -9,7 +9,7 @@ class AdapterForTest < HTTPI::Adapter::Base
     @@requests ||= []
     @@requests.push request
     @request = request
-    @worker = HTTPI::Adapter::HTTPClient.new(request)
+    @worker = HTTPI2::Adapter::HTTPClient.new(request)
   end
 
   def client
@@ -26,7 +26,7 @@ end
 
 # Fake adapter with request recording.
 # Takes path from url and returns fixture WSDL with that name.
-class FakeAdapterForTest < HTTPI::Adapter::Base
+class FakeAdapterForTest < HTTPI2::Adapter::Base
 
   register :fake_adapter_for_test
 
@@ -42,7 +42,7 @@ class FakeAdapterForTest < HTTPI::Adapter::Base
     @@methods ||= []
     @@methods.push method
     target = @request.url.path.to_sym
-    HTTPI::Response.new(200, {}, Fixture.wsdl(target))
+    HTTPI2::Response.new(200, {}, Fixture.wsdl(target))
   end
 
 end
